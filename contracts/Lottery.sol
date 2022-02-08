@@ -27,7 +27,7 @@ contract Lottery is ERC721, Ownable {
 
     uint256 public oldRoundTicket;
 
-    address public ticketContractAddress;
+    address public ticketFunder;
 
     // event
 
@@ -45,8 +45,8 @@ contract Lottery is ERC721, Ownable {
         maxTicketPerUser = _maxTicket;
     }
 
-    function setTicketAddress(address _address) public onlyOwner() {
-        ticketContractAddress = _address;
+    function setTicketFunder(address _address) public onlyOwner() {
+        ticketFunder = _address;
     }
 
     function setTicketFee(uint256 _ticketFee) public onlyOwner() {
@@ -70,10 +70,12 @@ contract Lottery is ERC721, Ownable {
         );
 
         // send fee
-        // require(msg.value == ticketFee, "wrong prize ticket");
-        // // transfer token 
-        safeTransferFrom(address(this), msg.sender, _ticketId);
+        require(msg.value == ticketFee, "wrong prize ticket");
+        // transfer token 
+        safeTransferFrom(ticketFunder, msg.sender, _ticketId);
 
+        // assign buyer 
+        ticketToOwner[_ticketId] = msg.sender;
     }
 
     function createBatchTicket(uint256 _amount, address _recipient) public onlyOwner() {
@@ -101,7 +103,6 @@ contract Lottery is ERC721, Ownable {
             require(_sent, "Failed to send ether");
         }
     }
-
 
     // view and pure fucntion
 

@@ -38,13 +38,13 @@ export interface LotteryInterface extends utils.Interface {
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setMaxTicketPerUser(uint256)": FunctionFragment;
-    "setTicketAddress(address)": FunctionFragment;
     "setTicketFee(uint256)": FunctionFragment;
+    "setTicketFunder(address)": FunctionFragment;
     "setTotalTicket(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
-    "ticketContractAddress()": FunctionFragment;
     "ticketFee()": FunctionFragment;
+    "ticketFunder()": FunctionFragment;
     "ticketToOwner(uint256)": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "totalTicket()": FunctionFragment;
@@ -112,12 +112,12 @@ export interface LotteryInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setTicketAddress",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "setTicketFee",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTicketFunder",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "setTotalTicket",
@@ -128,11 +128,11 @@ export interface LotteryInterface extends utils.Interface {
     values: [BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(functionFragment: "ticketFee", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "ticketContractAddress",
+    functionFragment: "ticketFunder",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "ticketFee", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ticketToOwner",
     values: [BigNumberish]
@@ -202,11 +202,11 @@ export interface LotteryInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setTicketAddress",
+    functionFragment: "setTicketFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setTicketFee",
+    functionFragment: "setTicketFunder",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -218,11 +218,11 @@ export interface LotteryInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ticketFee", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "ticketContractAddress",
+    functionFragment: "ticketFunder",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "ticketFee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "ticketToOwner",
     data: BytesLike
@@ -401,13 +401,13 @@ export interface Lottery extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setTicketAddress(
-      _address: string,
+    setTicketFee(
+      _ticketFee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setTicketFee(
-      _ticketFee: BigNumberish,
+    setTicketFunder(
+      _address: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -423,9 +423,9 @@ export interface Lottery extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
-    ticketContractAddress(overrides?: CallOverrides): Promise<[string]>;
-
     ticketFee(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    ticketFunder(overrides?: CallOverrides): Promise<[string]>;
 
     ticketToOwner(
       arg0: BigNumberish,
@@ -528,13 +528,13 @@ export interface Lottery extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setTicketAddress(
-    _address: string,
+  setTicketFee(
+    _ticketFee: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setTicketFee(
-    _ticketFee: BigNumberish,
+  setTicketFunder(
+    _address: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -550,9 +550,9 @@ export interface Lottery extends BaseContract {
 
   symbol(overrides?: CallOverrides): Promise<string>;
 
-  ticketContractAddress(overrides?: CallOverrides): Promise<string>;
-
   ticketFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+  ticketFunder(overrides?: CallOverrides): Promise<string>;
 
   ticketToOwner(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -645,15 +645,12 @@ export interface Lottery extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setTicketAddress(
-      _address: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     setTicketFee(
       _ticketFee: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setTicketFunder(_address: string, overrides?: CallOverrides): Promise<void>;
 
     setTotalTicket(
       _totalTicket: BigNumberish,
@@ -667,9 +664,9 @@ export interface Lottery extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
-    ticketContractAddress(overrides?: CallOverrides): Promise<string>;
-
     ticketFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    ticketFunder(overrides?: CallOverrides): Promise<string>;
 
     ticketToOwner(
       arg0: BigNumberish,
@@ -823,13 +820,13 @@ export interface Lottery extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setTicketAddress(
-      _address: string,
+    setTicketFee(
+      _ticketFee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setTicketFee(
-      _ticketFee: BigNumberish,
+    setTicketFunder(
+      _address: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -845,9 +842,9 @@ export interface Lottery extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
-    ticketContractAddress(overrides?: CallOverrides): Promise<BigNumber>;
-
     ticketFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    ticketFunder(overrides?: CallOverrides): Promise<BigNumber>;
 
     ticketToOwner(
       arg0: BigNumberish,
@@ -957,13 +954,13 @@ export interface Lottery extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setTicketAddress(
-      _address: string,
+    setTicketFee(
+      _ticketFee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setTicketFee(
-      _ticketFee: BigNumberish,
+    setTicketFunder(
+      _address: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -979,11 +976,9 @@ export interface Lottery extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    ticketContractAddress(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     ticketFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    ticketFunder(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     ticketToOwner(
       arg0: BigNumberish,
