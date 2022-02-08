@@ -23,7 +23,7 @@ async function main() {
 
   console.log("deployer address: ", deployer.address);
 
-  console.log("Greeter deployed to:", lottery.address);
+  console.log("Lottery deployed to:", lottery.address);
 
   console.log("deployed successfully!");
 }
