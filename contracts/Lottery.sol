@@ -70,8 +70,8 @@ contract Lottery is ERC721, Ownable {
         );
 
         // send fee
-        require(msg.value == ticketFee, "wrong prize ticket");
-        // transfer token 
+        // require(msg.value == ticketFee, "wrong prize ticket");
+        // // transfer token 
         safeTransferFrom(address(this), msg.sender, _ticketId);
 
     }
