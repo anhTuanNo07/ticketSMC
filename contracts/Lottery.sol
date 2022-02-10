@@ -17,6 +17,8 @@ contract Lottery is ERC721, Ownable {
  
     mapping(uint256 => address) public ticketToOwner;
 
+    mapping(address => uint256[]) public ownerTickets;
+
     // variables
 
     uint256 public totalTicket;
@@ -28,6 +30,8 @@ contract Lottery is ERC721, Ownable {
     uint256 public oldRoundTicket;
 
     address public ticketFunder;
+
+    address public lastWinner;
 
     // event
 
@@ -76,6 +80,7 @@ contract Lottery is ERC721, Ownable {
 
         // assign buyer 
         ticketToOwner[_ticketId] = msg.sender;
+        ownerTickets[msg.sender].push(_ticketId);
     }
 
     function createBatchTicket(uint256 _amount, address _recipient) public onlyOwner() {
@@ -95,11 +100,11 @@ contract Lottery is ERC721, Ownable {
             uint(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % totalTicket + oldRoundTicket;
 
         if(ticketToOwner[ticketIdReward] != address(0)) {
-            address rewardOnwer = ticketToOwner[ticketIdReward];
+            lastWinner = ticketToOwner[ticketIdReward];
             uint256 rewardAmount = address(this).balance;
 
             // send reward
-            (bool _sent, ) = rewardOnwer.call{value: rewardAmount}("");
+            (bool _sent, ) = lastWinner.call{value: rewardAmount}("");
             require(_sent, "Failed to send ether");
         }
     }

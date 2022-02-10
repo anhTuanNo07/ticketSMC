@@ -28,11 +28,13 @@ export interface LotteryInterface extends utils.Interface {
     "createBatchTicket(uint256,address)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "lastWinner()": FunctionFragment;
     "maxTicketPerUser()": FunctionFragment;
     "name()": FunctionFragment;
     "oldRoundTicket()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
+    "ownerTickets(address,uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "rewardAndCreateNewRound()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
@@ -78,6 +80,10 @@ export interface LotteryInterface extends utils.Interface {
     values: [string, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "lastWinner",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "maxTicketPerUser",
     values?: undefined
   ): string;
@@ -90,6 +96,10 @@ export interface LotteryInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "ownerTickets",
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -170,6 +180,7 @@ export interface LotteryInterface extends utils.Interface {
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "lastWinner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "maxTicketPerUser",
     data: BytesLike
@@ -181,6 +192,10 @@ export interface LotteryInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "ownerTickets",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -354,6 +369,8 @@ export interface Lottery extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    lastWinner(overrides?: CallOverrides): Promise<[string]>;
+
     maxTicketPerUser(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
@@ -366,6 +383,12 @@ export interface Lottery extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    ownerTickets(
+      arg0: string,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -484,6 +507,8 @@ export interface Lottery extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  lastWinner(overrides?: CallOverrides): Promise<string>;
+
   maxTicketPerUser(overrides?: CallOverrides): Promise<BigNumber>;
 
   name(overrides?: CallOverrides): Promise<string>;
@@ -493,6 +518,12 @@ export interface Lottery extends BaseContract {
   owner(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  ownerTickets(
+    arg0: string,
+    arg1: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -605,6 +636,8 @@ export interface Lottery extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    lastWinner(overrides?: CallOverrides): Promise<string>;
+
     maxTicketPerUser(overrides?: CallOverrides): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<string>;
@@ -614,6 +647,12 @@ export interface Lottery extends BaseContract {
     owner(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    ownerTickets(
+      arg0: string,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -773,6 +812,8 @@ export interface Lottery extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    lastWinner(overrides?: CallOverrides): Promise<BigNumber>;
+
     maxTicketPerUser(overrides?: CallOverrides): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
@@ -783,6 +824,12 @@ export interface Lottery extends BaseContract {
 
     ownerOf(
       tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    ownerTickets(
+      arg0: string,
+      arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -907,6 +954,8 @@ export interface Lottery extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    lastWinner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     maxTicketPerUser(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -917,6 +966,12 @@ export interface Lottery extends BaseContract {
 
     ownerOf(
       tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    ownerTickets(
+      arg0: string,
+      arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

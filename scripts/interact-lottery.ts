@@ -3,7 +3,7 @@
 //
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
-import { ethers } from 'hardhat'
+import { ethers } from "hardhat";
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -14,36 +14,40 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  let deployer
-  let acc1
-  ;[deployer, acc1] = await ethers.getSigners()
-  const Lottery = await ethers.getContractFactory('Lottery')
+  let deployer;
+  let acc1;
+  [deployer, acc1] = await ethers.getSigners();
+  const Lottery = await ethers.getContractFactory("Lottery");
   const lotteryContract = await Lottery.attach(
-    '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-  )
+    "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  );
 
-  //   await lotteryContract.connect(deployer).setTotalTicket(100)
-  //   await lotteryContract.connect(deployer).setMaxTicketPerUser(3)
-  //   await lotteryContract
-  //     .connect(deployer)
-  //     .setTicketFee(ethers.utils.parseEther('1'))
-  //   await lotteryContract.connect(deployer).setTicketFunder(deployer.address)
-  //   await lotteryContract.createBatchTicket(100, deployer.address)
-  //   await lotteryContract.connect(deployer).approve(acc1.address, 1)
-  //   await lotteryContract
-  //     .connect(acc1)
-  //     .buyTicket(1, { value: ethers.utils.parseEther('1') })
+  // await lotteryContract.connect(deployer).setTotalTicket(100);
+  // await lotteryContract.connect(deployer).setMaxTicketPerUser(3);
+  // await lotteryContract
+  //   .connect(deployer)
+  //   .setTicketFee(ethers.utils.parseEther("1"));
+  // await lotteryContract.connect(deployer).setTicketFunder(deployer.address);
+  // await lotteryContract.createBatchTicket(100, deployer.address);
+  // await lotteryContract.connect(deployer).approve(acc1.address, 1);
+  // await lotteryContract
+  //   .connect(acc1)
+  //   .buyTicket(4, { value: ethers.utils.parseEther("1") });
+  // const balance = await lotteryContract.balanceOf(acc1.address);
+  // console.log(balance.toString(), "acc1 balance");
+  const yourTicket = await lotteryContract.ownerTickets(acc1.address, 1);
+  console.log(yourTicket);
 
-  console.log('deployer address: ', deployer.address)
+  console.log("deployer address: ", deployer.address);
 
-  console.log('Lottery deployed to:', lotteryContract.address)
+  console.log("Lottery deployed to:", lotteryContract.address);
 
-  console.log('successfully!')
+  console.log("successfully!");
 }
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
 main().catch((error) => {
-  console.error(error)
-  process.exitCode = 1
-})
+  console.error(error);
+  process.exitCode = 1;
+});
