@@ -15,17 +15,30 @@ async function main() {
 
   // We get the contract to deploy
   let deployer
-  ;[deployer] = await ethers.getSigners()
+  let acc1
+  ;[deployer, acc1] = await ethers.getSigners()
   const Lottery = await ethers.getContractFactory('Lottery')
-  const lottery = await Lottery.connect(deployer).deploy()
+  const lotteryContract = await Lottery.attach(
+    '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+  )
 
-  await lottery.deployed()
+  //   await lotteryContract.connect(deployer).setTotalTicket(100)
+  //   await lotteryContract.connect(deployer).setMaxTicketPerUser(3)
+  //   await lotteryContract
+  //     .connect(deployer)
+  //     .setTicketFee(ethers.utils.parseEther('1'))
+  //   await lotteryContract.connect(deployer).setTicketFunder(deployer.address)
+  //   await lotteryContract.createBatchTicket(100, deployer.address)
+  //   await lotteryContract.connect(deployer).approve(acc1.address, 1)
+  //   await lotteryContract
+  //     .connect(acc1)
+  //     .buyTicket(1, { value: ethers.utils.parseEther('1') })
 
   console.log('deployer address: ', deployer.address)
 
-  console.log('Lottery deployed to:', lottery.address)
+  console.log('Lottery deployed to:', lotteryContract.address)
 
-  console.log('deployed successfully!')
+  console.log('successfully!')
 }
 
 // We recommend this pattern to be able to use async/await everywhere
